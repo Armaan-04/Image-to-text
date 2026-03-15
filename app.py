@@ -2,7 +2,6 @@ import streamlit as st
 from PIL import Image
 import torch
 from transformers import BlipProcessor, BlipForConditionalGeneration
-from huggingface_hub import login
 
 st.set_page_config(page_title="Image to Caption", page_icon="📸")
 
@@ -11,22 +10,25 @@ st.title("📸 Image Caption Generator")
 # Get token from Streamlit Secrets
 HF_TOKEN = st.secrets["HF_TOKEN"]
 
-# Login to Hugging Face
-login(token=HF_TOKEN)
-
 device = torch.device("cpu")
 
 @st.cache_resource
 def load_model():
     processor = BlipProcessor.from_pretrained(
-        "Salesforce/blip-image-captioning-base"
+        "Salesforce/blip-image-captioning-base",
+        token=HF_TOKEN
     )
+
     model = BlipForConditionalGeneration.from_pretrained(
-        "Salesforce/blip-image-captioning-base"
+        "Salesforce/blip-image-captioning-base",
+        token=HF_TOKEN
     )
+
     model.to(device)
     model.eval()
+
     return processor, model
+
 
 processor, model = load_model()
 
@@ -44,4 +46,3 @@ if uploaded_file is not None:
 
         st.success("Generated Caption:")
         st.write(caption)
-
