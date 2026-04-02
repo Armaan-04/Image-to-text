@@ -1,1 +1,1 @@
-Live app : https://armaan-04-ai-recommendation-system-app-vxgqbz.streamlit.app/
+Live app: https://armaan-04-image-to-text-app-19y0ik.streamlit.app/
